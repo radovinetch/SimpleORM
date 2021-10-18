@@ -1,0 +1,22 @@
+{
+    "name": "radovinetch/simple-orm",
+    "description": "Secure and simple ORM for my projects. Say no to useless things!",
+    "type": "library",
+    "version": "0.0.1",
+    "require": {
+        "ext-json": "*",
+        "php": ">=8.0",
+        "ext-PDO": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "9.5"
+    },
+    "autoload": {
+        "psr-4": {"SimpleORM\\": "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SimpleORM\\tests\\": "tests/phpunit/"
+        }
+    }
+}
