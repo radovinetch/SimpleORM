@@ -3,7 +3,6 @@
 
 namespace SimpleORM\tests\model;
 
-use SimpleORM\sql\Builder;
 use SimpleORM\tests\SimpleORMTestCase;
 
 class ModelTest extends SimpleORMTestCase
@@ -50,5 +49,13 @@ class ModelTest extends SimpleORMTestCase
         $user = User::where(['id' => 1])->get();
         $password = $user->hasOne(UserPassword::class, 'id', 'id');
         $this->assertEquals('3213232131', $password->getVar('password'));
+    }
+
+    public function testBuilder()
+    {
+        $builder = User::getQueryBuilder();
+        $builder->select(['user'])->limit(1);
+        $user = User::useBuilder($builder)->get();
+        $this->assertInstanceOf(User::class, $user);
     }
 }

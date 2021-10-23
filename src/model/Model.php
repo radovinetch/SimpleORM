@@ -87,9 +87,30 @@ abstract class Model
     /**
      * @return Builder
      */
-    protected static function getQueryBuilder(): Builder
+    public static function getQueryBuilder(): Builder
     {
         return new Builder(self::getTable());
+    }
+
+    /**
+     * @param Builder $builder
+     * @return Model
+     */
+    public static function useBuilder(Builder $builder): Model
+    {
+        $model = new static();
+        $model->setBuilder($builder);
+        return $model;
+    }
+
+    /**
+     * @return Model
+     */
+    public static function all(): Model
+    {
+        $model = new static();
+        $model->setBuilder(self::getQueryBuilder()->select());
+        return $model;
     }
 
     /**
