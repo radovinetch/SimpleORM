@@ -36,6 +36,19 @@ class ModelTest extends SimpleORMTestCase
         $this->assertEquals($user->getVar('user'), User::where(['id' => 1])->get()->getVar('user'));
     }
 
+    public function testUpdateViaMethod()
+    {
+        $user = User::where(['id' => 1])->get();
+        $array = $user->jsonSerialize();
+        $user->update(
+            [
+                'user' => mt_rand(1, 1000000)
+            ]
+        );
+        $user2 = User::where(['id' => 1])->get();
+        $this->assertNotEquals($array, $user2->jsonSerialize());
+    }
+
     public function testSelectWithOrder()
     {
         $users = User::where([])->orderBy(['id' => 'DESC'])->get();

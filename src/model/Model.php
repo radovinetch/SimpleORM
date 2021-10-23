@@ -6,7 +6,7 @@ namespace SimpleORM\model;
 use SimpleORM\connector\connection\Connection;
 use SimpleORM\sql\Builder;
 
-abstract class Model
+abstract class Model implements \JsonSerializable
 {
     /**
      * @var string|null
@@ -234,5 +234,21 @@ abstract class Model
         $builder->select()->join(static::getTable(), $key, $join_key, 'INNER')->where(['id' => $this->getVar('id')])->limit(1);
         $relation_model->setBuilder($builder);
         return $relation_model->get();
+    }
+
+    /**
+     * @param array $array
+     */
+    public function update(array $array)
+    {
+        foreach ($array as $key => $value) {
+            $this->setVar($key, $value);
+        }
+        $this->save();
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->data;
     }
 }
