@@ -14,7 +14,8 @@ class ModelTest extends SimpleORMTestCase
 
     public function testSelectNull()
     {
-        $this->assertEquals(null, User::where(['user' => '228']));
+        $user = User::where(['user' => '225464568'])->get();
+        $this->assertEquals(null, $user);
     }
 
     public function testSelectOne()
@@ -70,5 +71,10 @@ class ModelTest extends SimpleORMTestCase
         $builder->select(['user'])->limit(1);
         $user = User::useBuilder($builder)->get();
         $this->assertInstanceOf(User::class, $user);
+    }
+
+    public function testCountAll()
+    {
+        $this->assertEquals(6, User::countAll());
     }
 }

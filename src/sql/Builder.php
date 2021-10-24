@@ -64,6 +64,16 @@ class Builder
     public function select(array $fields = []): Builder
     {
         $fields_string = empty($fields) ? '*' : implode(',', array_map(fn($field) => ("`$field`"), array_values($fields)));
+        return $this->buildSelect($fields_string);
+    }
+
+    /**
+     * В select() нельзя засунуть COUNT(*) например
+     * @param $fields_string
+     * @return Builder
+     */
+    public function buildSelect($fields_string): Builder
+    {
         $this->query .= "SELECT ".$fields_string." FROM `" . $this->table . "`";
         return $this;
     }

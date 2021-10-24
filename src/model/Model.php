@@ -3,6 +3,7 @@
 
 namespace SimpleORM\model;
 
+use phpDocumentor\Reflection\Utils;
 use SimpleORM\connector\connection\Connection;
 use SimpleORM\sql\Builder;
 
@@ -111,6 +112,13 @@ abstract class Model implements \JsonSerializable
         $model = new static();
         $model->setBuilder(self::getQueryBuilder()->select());
         return $model;
+    }
+
+    public static function countAll(): int
+    {
+        $model = new static();
+        $model->setBuilder(self::getQueryBuilder()->buildSelect('COUNT(*) as `count`'));
+        return $model->get()->getVar('count');
     }
 
     /**
