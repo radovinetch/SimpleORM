@@ -5,7 +5,7 @@
     "version": "0.0.1",
     "require": {
         "ext-json": "*",
-        "php": ">=8.0",
+        "php": ">=7.4",
         "ext-PDO": "*"
     },
     "require-dev": {
