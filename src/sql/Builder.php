@@ -145,7 +145,9 @@ class Builder
     public function orderBy(array $params): Builder
     {
         $params = $this->filterParams($params);
-        $this->query .= " ORDER BY " . implode(', ', array_map(fn($k, $v) => ($k . ' ' . $v), array_keys($params), array_values($params)));
+        if (!empty($params)) {
+            $this->query .= " ORDER BY " . implode(', ', array_map(fn($k, $v) => ($k . ' ' . $v), array_keys($params), array_values($params)));
+        }
         return $this;
     }
 
