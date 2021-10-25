@@ -3,6 +3,7 @@
 
 namespace SimpleORM\model;
 
+use http\Env\Request;
 use phpDocumentor\Reflection\Utils;
 use SimpleORM\connector\connection\Connection;
 use SimpleORM\sql\Builder;

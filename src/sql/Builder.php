@@ -145,6 +145,13 @@ class Builder
     public function orderBy(array $params): Builder
     {
         $params = $this->filterParams($params);
+        foreach ($params as $k=>$v) {
+            $v = strtolower($v);
+            if ($v != 'desc' && $v != 'asc') {
+                unset($params[$k]);
+            }
+        }
+
         if (!empty($params)) {
             $this->query .= " ORDER BY " . implode(', ', array_map(fn($k, $v) => ($k . ' ' . $v), array_keys($params), array_values($params)));
         }

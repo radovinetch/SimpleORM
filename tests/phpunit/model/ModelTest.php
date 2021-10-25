@@ -64,6 +64,12 @@ class ModelTest extends SimpleORMTestCase
         $this->assertEquals("SELECT * FROM `users` ORDER BY id DESC", $query);
     }
 
+    public function testSelectWithOrderErrorValue()
+    {
+        $query = User::where([])->orderBy(['id' => 'DESC', 'username' => 'AScc'])->getBuilder()->getQuery();
+        $this->assertEquals("SELECT * FROM `users` ORDER BY id DESC", $query);
+    }
+
     public function testHasOne()
     {
         /** @var User $user */
