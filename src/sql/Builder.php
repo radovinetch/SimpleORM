@@ -12,12 +12,19 @@ class Builder
     private string $table;
 
     /**
+     * @var array
+     */
+    private array $fields;
+
+    /**
      * Builder constructor.
      * @param string $table
+     * @param array $fields
      */
-    public function __construct(string $table)
+    public function __construct(string $table, array $fields = [])
     {
         $this->table = $table;
+        $this->fields = $fields;
     }
 
     /**
@@ -29,6 +36,14 @@ class Builder
      * @var array
      */
     private array $params = [];
+
+    private function filterParams(array $params): array
+    {
+        if (!empty($this->fields)) {
+            $params = array_filter($params, function($key) use($params) { return array_search($key, $this->fields) !== false; }, ARRAY_FILTER_USE_KEY);
+        }
+        return $params;
+    }
 
     /**
      * @return string
@@ -52,6 +67,7 @@ class Builder
      */
     public function insert(array $params): Builder
     {
+        $params = $this->filterParams($params);
         $this->params = array_merge($this->params, array_values($params));
         $this->query .= "INSERT INTO `".$this->table."` (".implode(', ', array_map(fn($item) => "`".$item."`", array_keys($params))).") VALUES (".substr(str_repeat('?,', count($params)), 0, -1).")";
         return $this;
@@ -97,6 +113,7 @@ class Builder
      */
     public function where(array $params): Builder
     {
+        $params = $this->filterParams($params);
         $string = '';
         foreach ($params as $k => $v) {
             $string .= ($string != '' ? ' AND' : ' WHERE') . " {$this->table}.`$k` = ?";
@@ -127,6 +144,7 @@ class Builder
      */
     public function orderBy(array $params): Builder
     {
+        $params = $this->filterParams($params);
         $this->query .= " ORDER BY " . implode(', ', array_map(fn($k, $v) => ($k . ' ' . $v), array_keys($params), array_values($params)));
         return $this;
     }

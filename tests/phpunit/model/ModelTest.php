@@ -3,6 +3,7 @@
 
 namespace SimpleORM\tests\model;
 
+use phpDocumentor\Reflection\Utils;
 use SimpleORM\tests\SimpleORMTestCase;
 
 class ModelTest extends SimpleORMTestCase
@@ -55,6 +56,12 @@ class ModelTest extends SimpleORMTestCase
         $users = User::where([])->orderBy(['id' => 'DESC'])->get();
 
         $this->assertIsArray($users);
+    }
+
+    public function testSelectWithOrderWithNonExistField()
+    {
+        $query = User::where([])->orderBy(['id' => 'DESC', 'nonExists' => 'ASC'])->getBuilder()->getQuery();
+        $this->assertEquals("SELECT * FROM `users` ORDER BY id DESC", $query);
     }
 
     public function testHasOne()

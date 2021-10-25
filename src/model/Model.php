@@ -15,6 +15,15 @@ abstract class Model implements \JsonSerializable
     protected static ?string $table = null;
 
     /**
+     * ORM может работать и без этого, но желательно прописать в каждой модели все её поля.
+     * В Builder будет проверка на то, существует ли каждое поле и если поле не найдено в таблице - оно исключается из запроса
+     * Все это нужно, чтобы когда данные указываются динамически (например сортировка из $_GET) нельзя было ввести несуществующее поле и получить ошибку
+     *
+     * @var array
+     */
+    protected static array $fields = [];
+
+    /**
      * @var string[]
      */
     protected array $not_update_fields = ['id', 'created_at'];
@@ -90,7 +99,7 @@ abstract class Model implements \JsonSerializable
      */
     public static function getQueryBuilder(): Builder
     {
-        return new Builder(self::getTable());
+        return new Builder(self::getTable(), static::$fields);
     }
 
     /**
