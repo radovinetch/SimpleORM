@@ -49,10 +49,14 @@ class SimpleORM
             $array[$item[0]] = $item[1] ?? '';
         }
 
-        $credentials = match ($array['db']) {
-            'mysql' => MySQLCredentials::class,
-            default => NullableCredentials::class,
-        };
+        switch ($array['db']) {
+            case 'mysql':
+                $credentials = MySQLCredentials::class;
+                break;
+
+            default:
+                $credentials = NullableCredentials::class;
+        }
 
         return new $credentials($array['host'], $array['user'], $array['password'], $array['database']);
     }

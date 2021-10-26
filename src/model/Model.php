@@ -3,8 +3,6 @@
 
 namespace SimpleORM\model;
 
-use http\Env\Request;
-use phpDocumentor\Reflection\Utils;
 use SimpleORM\connector\connection\Connection;
 use SimpleORM\sql\Builder;
 
@@ -53,7 +51,7 @@ abstract class Model implements \JsonSerializable
      * @param null $default
      * @return mixed
      */
-    public function getVar(string $key, $default = null): mixed
+    public function getVar(string $key, $default = null)
     {
         return $this->data[$key] ?? $default;
     }
@@ -189,7 +187,7 @@ abstract class Model implements \JsonSerializable
     /**
      * @return array|Model|null
      */
-    public function get(): array|Model|null
+    public function get()
     {
         $builder = $this->getBuilder();
         if ($builder == null) {
