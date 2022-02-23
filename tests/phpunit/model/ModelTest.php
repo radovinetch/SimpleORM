@@ -8,6 +8,14 @@ use SimpleORM\tests\SimpleORMTestCase;
 
 class ModelTest extends SimpleORMTestCase
 {
+    public function testClear()
+    {
+        User::insert(['user' => mt_rand(9999, 999999)]);
+        $this->assertNotEmpty(User::all()->get());
+        User::clear();
+        $this->assertEmpty(User::all()->get());
+    }
+
     public function testInsert()
     {
         $this->assertInstanceOf(User::class, User::insert(['user' => '345345']));
