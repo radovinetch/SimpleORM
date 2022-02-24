@@ -124,6 +124,23 @@ class Builder
     }
 
     /**
+     * @param string $k
+     * @param $v
+     * @return $this
+     */
+    public function orWhere(string $k, $v): Builder
+    {
+        $params = $this->filterParams([$k => $v]);
+        $string = '';
+        foreach ($params as $k => $v) {
+            $string .= " OR " . "{$this->table}.`$k` = ?";
+            $this->params[] = $v;
+        }
+        $this->query .= $string;
+        return $this;
+    }
+
+    /**
      * @param array $params
      * @return $this
      */

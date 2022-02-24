@@ -154,6 +154,18 @@ abstract class Model implements \JsonSerializable
     }
 
     /**
+     * @param string $k
+     * @param $v
+     * @return $this
+     */
+    public function orWhere(string $k, $v): Model
+    {
+        $builder = $this->getBuilder();
+        $this->setBuilder($builder->orWhere($k, $v));
+        return $this;
+    }
+
+    /**
      * @param array $params
      * @return Model
      */

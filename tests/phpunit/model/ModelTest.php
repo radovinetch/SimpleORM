@@ -27,6 +27,12 @@ class ModelTest extends SimpleORMTestCase
         $this->assertEquals(null, $user);
     }
 
+    public function testSelectOrWhere()
+    {
+        $query = User::where(['id' => 13])->orWhere('id', 15)->getBuilder()->getQuery();
+        $this->assertEquals("SELECT * FROM `users` WHERE users.`id` = ? OR users.`id` = ?", $query);
+    }
+
     public function testSelectOne()
     {
         $this->assertInstanceOf(User::class, User::where(['id' => 2]));
