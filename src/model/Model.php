@@ -288,7 +288,7 @@ abstract class Model implements \JsonSerializable
         $this->save();
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->data;
     }
